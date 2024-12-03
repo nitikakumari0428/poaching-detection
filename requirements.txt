@@ -1,5 +1,3 @@
-# Use a compatible version of tensorflow with Python 3.12
-tensorflow>=2.16.0,<3.0
-# deepface and retinaface can work with newer TensorFlow versions
+tensorflow==2.5.0
 deepface==0.0.85
 retinaface==1.1.1
