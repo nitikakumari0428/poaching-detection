@@ -1,48 +1,43 @@
 import streamlit as st
-from poaching_detection import detect_poachers, read_video
-from face_detection import compare_faces_and_track_unique
-import os
 import cv2
+import os
+from ultralytics import YOLO
 import pickle
+import numpy as np
+from deepface import DeepFace
+from retinaface import RetinaFace
 
-st.title("Poaching Detection System")
 
-# Load model path
-model = pickle.load(open('model.pkl', 'rb'))
-#model_path = "path/to/best.pt"  # Replace this with actual model path
-st.write("Loaded YOLO model:", model)
 
-# Upload video file
-uploaded_file = st.file_uploader("Upload a video file", type=["mp4", "avi", "mov"])
-if uploaded_file is not None:
-    # Save video locally
-    video_path = "temp_video.mp4"
-    with open(video_path, "wb") as f:
-        f.write(uploaded_file.read())
-    st.write("Video uploaded successfully!")
+import importlib
 
-    # Detect poachers
-    st.write("Processing video...")
+# List of packages to check
+packages = {
+    "streamlit": "1.40.2",
+    "ultralytics": None,
+    "opencv-python-headless": None,
+    "numpy": None,
+    "deepface": None,
+    "retinaface": "1.1.1",
+    "tensorflow": ">=2.6.0"
+}
+
+for package, required_version in packages.items():
     try:
-        poacher_frames, resolution = detect_poachers(model, video_path)
-        print("***", poacher_frames)
-        if poacher_frames is None:
-            st.error("Could not process the video. Please try again.")
-        elif len(poacher_frames) == 0:
-            st.success("No poachers detected in the video!")
+        # Dynamically import the package
+        pkg = importlib.import_module(package)
+        installed_version = pkg.__version__
+
+        if required_version:
+            # Compare the versions if required version is specified
+            from packaging import version
+            if version.parse(installed_version) >= version.parse(required_version.replace(">=", "")):
+                print(f"{package}: {installed_version} (meets requirement: {required_version})")
+            else:
+                print(f"{package}: {installed_version} (does not meet requirement: {required_version})")
         else:
-            st.warning(f"Poachers detected in {len(poacher_frames)} frames.")
-
-            # Read video frames and display unique poacher frames
-            frames, _, _ = read_video(video_path)
-            unique_poacher_frames = compare_faces_and_track_unique(poacher_frames, frames)
-
-            st.write(f"Displaying frames with unique poachers detected...")
-            for frame_idx in unique_poacher_frames[:5]:  # Limit to 5 frames for display
-                st.image(cv2.cvtColor(frames[frame_idx], cv2.COLOR_BGR2RGB), caption=f"Frame {frame_idx + 1}")
-
-    except Exception as e:
-        st.error(f"An error occurred: {e}")
-
-    # Clean up temporary file
-    os.remove(video_path)
+            print(f"{package}: {installed_version} (no specific version requirement)")
+    except ImportError:
+        print(f"{package} is not installed.")
+    except AttributeError:
+        print(f"{package} is installed but version could not be determined.")
