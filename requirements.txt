@@ -1,7 +1,7 @@
 streamlit==1.40.2
-ultralytics
+ultralytics==8.3.39
 opencv-python-headless
-numpy
-deepface
-retinaface
-
+numpy==1.26.4
+deepface==0.0.85
+retinaface==1.1.1
+tensorflow>=2.6.0,<3.0
