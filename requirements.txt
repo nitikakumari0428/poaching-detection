@@ -1,8 +1,5 @@
-# Modify tensorflow version to accommodate both deepface and retinaface
-tensorflow==2.5.0  # This is required by retinaface
-
-# Deepface does not need an exact TensorFlow version
+# Use a compatible version of tensorflow with Python 3.12
+tensorflow>=2.16.0,<3.0
+# deepface and retinaface can work with newer TensorFlow versions
 deepface==0.0.85
-
-# Other dependencies you may have (adjust versions accordingly)
 retinaface==1.1.1
