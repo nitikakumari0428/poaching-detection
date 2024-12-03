@@ -1,7 +1,8 @@
-streamlit==1.40.2
-ultralytics==8.3.39
-opencv-python-headless
-numpy==1.26.4
+# Modify tensorflow version to accommodate both deepface and retinaface
+tensorflow==2.5.0  # This is required by retinaface
+
+# Deepface does not need an exact TensorFlow version
 deepface==0.0.85
+
+# Other dependencies you may have (adjust versions accordingly)
 retinaface==1.1.1
-tensorflow>=2.6.0,<3.0
