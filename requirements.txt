@@ -1,6 +1,6 @@
 tensorflow==2.15.0
 deepface==0.0.85
-retinaface==0.0.14
+retina-face==0.0.14
 numpy==1.26.4
-cv2==4.9.0
+opencv-python==4.9.0.80
 ultralytics==8.3.39
