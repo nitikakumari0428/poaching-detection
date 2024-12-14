@@ -148,7 +148,6 @@ soupsieve==2.5
 stack-data==0.6.3
 statsmodels==0.14.4
 streamlit==1.40.1
-supervision==0.25.0
 tensorflow==2.15.0
 tensorboard==2.15.2
 tensorflow-estimator==2.15.0
